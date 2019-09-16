@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Slingshot : MonoBehaviour {
 
-
+    static private Slingshot s;
 
     // // fields set in the Unity Inspector pane
     [Header("Set in Inspector")]
@@ -28,10 +28,17 @@ public class Slingshot : MonoBehaviour {
     private Rigidbody projectileRigidbody;
 
     // will be set to non-static
-    public static Vector3 LAUNCH_POS = Vector3.zero;
 
 
+    static public Vector3 LAUNCH_POS
+    {
+        get
+        {
+            if (s == null) return Vector3.zero;
 
+            return s.launchPos;
+        }
+    }
 
 
 
@@ -112,8 +119,14 @@ public class Slingshot : MonoBehaviour {
 
             projectileRigidbody.velocity = -mouseDelta * velocityMult;
 
+            FollowCam.POI = projectile;
+
             projectile = null;
+
+
         }
+
+        
 
     }
 }
