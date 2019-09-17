@@ -37,6 +37,11 @@ public class FollowCam : MonoBehaviour {
                 {
                     // return to default view
                     POI = null;
+
+                    if (MissionDemolition.S.shotsTaken >= 3)
+                    {
+                        MissionDemolition.S.Restart();
+                    }
                     // in the next update
                     return;
                 }

@@ -16,7 +16,7 @@ public enum GameMode
 public class MissionDemolition : MonoBehaviour
 {
 
-    static private MissionDemolition S; 
+    static public MissionDemolition S; 
 
     [Header("Set in Inspector")]
 
@@ -42,7 +42,18 @@ public class MissionDemolition : MonoBehaviour
         StartLevel();
     }
 
+    public void Restart()
+    {
+        level = 0;
+        levelMax = castles.Length;
+        StartLevel();
+    }
 
+    void CreateCastle()
+    {
+        castle = Instantiate<GameObject>(castles[level]);
+        castle.transform.position = castlePos;
+    }
 
     void StartLevel()
     {
@@ -62,8 +73,7 @@ public class MissionDemolition : MonoBehaviour
 
         }
 
-        castle = Instantiate<GameObject>(castles[level]);
-        castle.transform.position = castlePos;
+        Invoke("CreateCastle", 0.1f);
         shotsTaken = 0;
 
 
@@ -167,6 +177,10 @@ public class MissionDemolition : MonoBehaviour
     public static void ShotFired()
     {                                            
         S.shotsTaken++;
+        if (S.shotsTaken >= 4)
+        {
+            S.Restart();
+        }
     }
 
 
