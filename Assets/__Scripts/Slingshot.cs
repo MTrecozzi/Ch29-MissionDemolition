@@ -13,6 +13,11 @@ public class Slingshot : MonoBehaviour {
 
     public float velocityMult = 8f;
 
+    public Transform leftArm;
+    public Transform RightArm;
+
+    public LineRenderer lineRendy;
+
 
     //// fields set dynamically
     [Header("Set Dynamically")]
@@ -54,6 +59,8 @@ public class Slingshot : MonoBehaviour {
         launchPoint.SetActive(false);
 
         launchPos = launchPointTrans.position;
+
+        lineRendy.enabled = false;
     }
 
     private void OnMouseEnter()
@@ -81,12 +88,17 @@ public class Slingshot : MonoBehaviour {
         projectileRigidbody = projectile.GetComponent<Rigidbody>();
 
         projectileRigidbody.isKinematic = true;
+
+        lineRendy.enabled = true;
     }
 
     private void Update()
     {
 
-        if (!aimingMode) return;
+        if (!aimingMode) {
+            
+            return;
+        }
 
         Vector3 mousePos2D = Input.mousePosition;
 
@@ -113,6 +125,12 @@ public class Slingshot : MonoBehaviour {
 
         projectile.transform.position = projPos;
 
+        if (projectile != null)
+        {
+            Vector3[] linePositions = new Vector3[] { leftArm.position, projPos, RightArm.position };
+            lineRendy.SetPositions(linePositions);
+        }
+
         if (Input.GetMouseButtonUp(0))
         {
             aimingMode = false;
@@ -128,6 +146,8 @@ public class Slingshot : MonoBehaviour {
             MissionDemolition.ShotFired();
 
             ProjectileLine.S.poi = projectile;
+
+            lineRendy.enabled = false;
 
 
         }
