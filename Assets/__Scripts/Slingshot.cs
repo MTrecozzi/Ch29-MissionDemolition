@@ -45,6 +45,8 @@ public class Slingshot : MonoBehaviour {
 
     private void Awake()
     {
+        s = this;
+
         Transform launchPointTrans = transform.Find("LaunchPoint");
 
         launchPoint = launchPointTrans.gameObject;
